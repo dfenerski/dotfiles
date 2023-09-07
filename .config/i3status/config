@@ -1,0 +1,56 @@
+general {
+    colors = true
+    color_good = "#69cbb0"
+    color_degraded = "#f4d35e"
+    color_bad = "#ee964b"
+    color_separator = "#dbe9ee"
+    interval = 1
+}
+
+order += "wireless _first_"
+order += "memory"
+order += "battery 0"
+order += "volume master"
+order += "tztime local"
+
+tztime local {
+    format = "%Y-%m-%d %H:%M:%S"
+    timezone = "Europe/Sofia"
+}
+
+volume master {
+    format = "♪: %volume"
+    format_muted = "♪: muted (%volume)"
+    device = "default"
+    mixer = "Master"
+    mixer_idx = 0
+}
+
+
+battery 0 {
+    format = "%status %percentage %remaining"
+    low_threshold = 10
+    threshold_type = time
+    last_full_capacity = true
+    integer_battery_capacity = true
+    color_good = "#00FF00"
+    color_degraded = "#FFFF00"
+    color_bad = "#FF0000"
+    status_chr = "⚡ CHR"
+    status_bat = "🔋 BAT"
+    status_unk = "❓"
+    status_full = "🔌 FULL"
+}
+
+memory {
+    format = "%used/%total"
+    threshold_degraded = "1G"
+    threshold_critical = "512M"
+}
+
+wireless _first_ {
+    format_up = "W: (%quality at %essid, %bitrate) %ip"
+    format_down = "W: down"
+}
+
+
