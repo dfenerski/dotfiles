@@ -1,9 +1,9 @@
--- Telescope remaps 
+-- Telescope remaps
 local builtin = require('telescope.builtin');
 vim.keymap.set('n', '<leader>ffa', builtin.find_files, {});
 vim.keymap.set('n', '<leader>ff', builtin.git_files, {});
 vim.keymap.set('n', '<leader>sf', function()
-    builtin.grep_string({ search = vim.fn.input("Search: ")});
+    builtin.grep_string({ search = vim.fn.input("Search: ") });
 end)
 
 -- Harpoon remaps
@@ -42,11 +42,11 @@ vim.keymap.set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
 -- Ughh something with tmux I am yet to figure out https://youtu.be/w7i4amO_zaE?si=n4eO6SVGhI4JwBn9&t=1709
 --vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
--- Vim quickfix list navigation https://stackoverflow.com/questions/1747091/how-do-you-use-vims-quickfix-feature
--- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
--- vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+-- Vim quickfix list navigation
+vim.keymap.set("n", "<leader>j", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<leader>k", "<cmd>cprev<CR>zz")
 
--- Vim local list navigation
+-- Vim local list navigation https://stackoverflow.com/questions/1747091/how-do-you-use-vims-quickfix-feature
 -- vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 -- vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
