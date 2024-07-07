@@ -100,8 +100,8 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Custom Lua function to add the current file to the Quickfix list and open the Quickfix window
 local function add_current_file_to_qf()
     -- Get the current file path and line number
-    local Path = require('plenary.path')
     local current_file = vim.api.nvim_buf_get_name(0)
+    local current_line = vim.api.nvim_get_current_line()
     local cursor_position = vim.api.nvim_win_get_cursor(0)
     local line_number = cursor_position[1]
     local column_number = cursor_position[2] + 1
@@ -111,7 +111,7 @@ local function add_current_file_to_qf()
             filename = current_file,
             lnum = line_number,
             col = column_number,
-            text = Path:new(current_file):make_relative(vim.fn.getcwd())
+            text = current_line
         }
     }
     -- [a]ppend the entry to the Quickfix list and open the Quickfix window
