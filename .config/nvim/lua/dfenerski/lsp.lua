@@ -1,9 +1,12 @@
+-- Keep track of commonly used lsp clients
+local known_lsp_clients = {};
+
 -- Setup remaps on lsp attach
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('user_lsp_attach', { clear = true }),
     callback = function(event)
         local opts = { buffer = event.buf }
-        --
+
         vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
         vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts)
@@ -14,18 +17,28 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', '<leader>vrr', function() vim.lsp.buf.references() end, opts)
         vim.keymap.set('n', '<leader>vrn', function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
+
         -- Open [e]rror [l]ist in quickfix window
         vim.keymap.set('n', '<leader>el', function() vim.diagnostic.setqflist() end, opts)
+
         -- Open [e]rror [d]etails window
         vim.keymap.set('n', '<leader>ed', function()
             vim.diagnostic.open_float();
             vim.diagnostic.open_float() -- Execute again to enter the error window
         end, opts)
-        -- Format on save
+
+        -- Actions on save
         vim.api.nvim_create_autocmd('BufWritePre', {
-            buffer = event.buf,
             callback = function()
-                vim.lsp.buf.format()
+                -- Organize imports
+                vim.lsp.get_client_by_id(known_lsp_clients.tsserver).request_sync('workspace/executeCommand', {
+                    command = '_typescript.organizeImports',
+                    arguments = { vim.api.nvim_buf_get_name(event.buf) },
+                    title = ''
+                })
+
+                -- Format
+                vim.lsp.buf.format({ id = known_lsp_clients.biome })
             end
         })
     end,
@@ -68,10 +81,64 @@ require('mason-lspconfig').setup({
         function(server_name)
             require('lspconfig')[server_name].setup({
                 capabilities = lsp_capabilities,
-                -- Connect to lsp-status
                 on_attach = function(client, bufnr)
+                    -- Connect to lsp-status
                     lsp_status.on_attach(client)
                 end
+            })
+        end,
+        biome = function()
+            require('lspconfig').biome.setup({
+                capabilities = lsp_capabilities,
+                on_attach = function(client, bufnr)
+                    -- Connect to lsp-status
+                    lsp_status.on_attach(client)
+
+                    -- Register as known lsp client
+                    known_lsp_clients.biome = client.id
+                end
+            })
+        end,
+        tsserver = function()
+            require('lspconfig').tsserver.setup({
+                capabilities = lsp_capabilities,
+                on_attach = function(client, bufnr)
+                    -- Disable tsserver formatting in favor of biome
+                    client.server_capabilities.documentFormattingProvider = false
+
+                    -- Connect to lsp-status
+                    lsp_status.on_attach(client)
+
+                    -- Register as known lsp client
+                    known_lsp_clients.tsserver = client.id
+                end,
+                -- Enable inlay hints, see also global.lua
+                settings = {
+                    typescript = {
+                        inlayHints = {
+                            includeInlayParameterNameHints = "all",
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                            includeInlayFunctionParameterTypeHints = true,
+                            includeInlayVariableTypeHints = true,
+                            includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                            includeInlayPropertyDeclarationTypeHints = true,
+                            includeInlayFunctionLikeReturnTypeHints = true,
+                            includeInlayEnumMemberValueHints = true
+                        }
+                    },
+                    javascript = {
+                        inlayHints = {
+                            includeInlayParameterNameHints = "all",
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                            includeInlayFunctionParameterTypeHints = true,
+                            includeInlayVariableTypeHints = true,
+                            includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+                            includeInlayPropertyDeclarationTypeHints = true,
+                            includeInlayFunctionLikeReturnTypeHints = true,
+                            includeInlayEnumMemberValueHints = true
+                        }
+                    }
+                },
             })
         end,
         lua_ls = function()
@@ -132,3 +199,6 @@ cmp.setup({
         end,
     },
 })
+
+-- Setup gitsigns
+require('gitsigns').setup()

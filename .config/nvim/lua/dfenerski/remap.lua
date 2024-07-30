@@ -1,6 +1,7 @@
 -- Telescope remaps
+local telescope = require('telescope');
 local builtin = require('telescope.builtin');
-vim.keymap.set('n', '<leader>ffa', builtin.find_files, {});
+vim.keymap.set('n', '<leader>fg', telescope.extensions.live_grep_args.live_grep_args, {});
 vim.keymap.set('n', '<leader>ff', builtin.git_files, {});
 vim.keymap.set('n', '<leader>sf', function()
     builtin.grep_string({ search = vim.fn.input("Search: ") });
@@ -19,7 +20,7 @@ vim.keymap.set('n', '<leader>sh', ui.toggle_quick_menu);
 -- Undotree remaps
 vim.keymap.set('n', '<leader>z', vim.cmd.UndotreeToggle);
 
--- Vim-fugitive remaps
+-- Neogit remaps
 vim.keymap.set('n', '<leader>gs', vim.cmd.Git);
 
 -- Disables capital Q
@@ -34,6 +35,7 @@ vim.keymap.set("n", "<leader>x", vim.cmd.Ex)
 -- Mark current file as executable
 vim.keymap.set("n", "<leader>ex", "<cmd>!chmod +x %<CR>", { silent = true })
 
+-- Enable vim-tmux-navigator intuitive navigation
 vim.keymap.set("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>")
 vim.keymap.set("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
 vim.keymap.set("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
