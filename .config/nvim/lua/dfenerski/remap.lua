@@ -32,6 +32,9 @@ vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- Close current file
 vim.keymap.set("n", "<leader>x", vim.cmd.Ex)
 
+-- Open parent directory
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
 -- Mark current file as executable
 vim.keymap.set("n", "<leader>ex", "<cmd>!chmod +x %<CR>", { silent = true })
 

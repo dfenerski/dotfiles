@@ -7,6 +7,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(event)
         local opts = { buffer = event.buf }
 
+        -- Common LSP nav remaps
         vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
         vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts)
@@ -18,6 +19,38 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', '<leader>vrn', function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
 
+        -- Manual save hook, organize imports, then format. Meant for js/ts files (biome and tsserver)
+        vim.keymap.set('n', '<leader>w', function()
+            local tsserver_client = vim.lsp.get_client_by_id(known_lsp_clients.tsserver);
+
+            if not tsserver_client then return end
+
+            tsserver_client.request(
+                'workspace/executeCommand',
+                {
+                    command = '_typescript.organizeImports',
+                    arguments = { vim.api.nvim_buf_get_name(event.buf) },
+                    title = ''
+                },
+                function()
+                    local biome_client = vim.lsp.get_client_by_id(known_lsp_clients.biome);
+
+                    if not biome_client then return end
+
+                    biome_client.request(
+                        'textDocument/formatting',
+                        vim.lsp.util.make_formatting_params({}),
+                        function(_, r2)
+                            vim.lsp.util.apply_text_edits(r2, event.buf, biome_client.offset_encoding)
+                            vim.cmd('write')
+                        end,
+                        opts.buffer
+                    );
+                end,
+                opts.buffer
+            );
+        end, opts)
+
         -- Open [e]rror [l]ist in quickfix window
         vim.keymap.set('n', '<leader>el', function() vim.diagnostic.setqflist() end, opts)
 
@@ -26,21 +59,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.diagnostic.open_float();
             vim.diagnostic.open_float() -- Execute again to enter the error window
         end, opts)
-
-        -- Actions on save
-        vim.api.nvim_create_autocmd('BufWritePre', {
-            callback = function()
-                -- Organize imports
-                vim.lsp.get_client_by_id(known_lsp_clients.tsserver).request_sync('workspace/executeCommand', {
-                    command = '_typescript.organizeImports',
-                    arguments = { vim.api.nvim_buf_get_name(event.buf) },
-                    title = ''
-                })
-
-                -- Format
-                vim.lsp.buf.format({ id = known_lsp_clients.biome })
-            end
-        })
     end,
 })
 
