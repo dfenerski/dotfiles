@@ -23,32 +23,46 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', '<leader>w', function()
             local tsserver_client = vim.lsp.get_client_by_id(known_lsp_clients.tsserver);
 
-            if not tsserver_client then return end
+            -- Manual save hook for js/ts files
+            if tsserver_client then
+                tsserver_client.request(
+                    'workspace/executeCommand',
+                    {
+                        command = '_typescript.organizeImports',
+                        arguments = { vim.api.nvim_buf_get_name(event.buf) },
+                        title = ''
+                    },
+                    function()
+                        local biome_client = vim.lsp.get_client_by_id(known_lsp_clients.biome);
 
-            tsserver_client.request(
-                'workspace/executeCommand',
-                {
-                    command = '_typescript.organizeImports',
-                    arguments = { vim.api.nvim_buf_get_name(event.buf) },
-                    title = ''
-                },
-                function()
-                    local biome_client = vim.lsp.get_client_by_id(known_lsp_clients.biome);
+                        -- Abort if biome client is not available
+                        if not biome_client then return end
 
-                    if not biome_client then return end
+                        biome_client.request(
+                            'textDocument/formatting',
+                            vim.lsp.util.make_formatting_params({}),
+                            function(_, r2)
+                                -- Abort if no changes are yielded form formatting
+                                if not r2 then return end
 
-                    biome_client.request(
-                        'textDocument/formatting',
-                        vim.lsp.util.make_formatting_params({}),
-                        function(_, r2)
-                            vim.lsp.util.apply_text_edits(r2, event.buf, biome_client.offset_encoding)
-                            vim.cmd('write')
-                        end,
-                        opts.buffer
-                    );
-                end,
-                opts.buffer
-            );
+                                -- Apply changes
+                                vim.lsp.util.apply_text_edits(r2, event.buf, biome_client.offset_encoding)
+
+                                -- Manually save the buffer
+                                vim.cmd('write')
+                            end,
+                            opts.buffer
+                        );
+                    end,
+                    opts.buffer
+                );
+            end
+
+            -- Manual format and save other file types
+            if vim.bo.filetype ~= 'js' and vim.bo.filetype ~= 'ts' and vim.bo.filetype ~= 'json' then
+                vim.lsp.buf.format({ bufnr = event.buf });
+                vim.cmd('write');
+            end
         end, opts)
 
         -- Open [e]rror [l]ist in quickfix window
@@ -176,7 +190,11 @@ require('mason-lspconfig').setup({
                             }
                         }
                     }
-                }
+                },
+                on_attach = function(client, bufnr)
+                    -- Connect to lsp-status
+                    lsp_status.on_attach(client)
+                end
             })
         end,
     }

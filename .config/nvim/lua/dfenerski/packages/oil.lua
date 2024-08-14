@@ -5,6 +5,7 @@ return {
         "nvim-tree/nvim-web-devicons",
     },
     config = function()
+        local detail = false;
         require('oil').setup({
             default_file_explorer = true,
             delete_to_trash = true,
@@ -27,6 +28,17 @@ return {
                 ["gx"] = "actions.open_external",
                 ["g."] = "actions.toggle_hidden",
                 ["g\\"] = "actions.toggle_trash",
+                ["ll"] = {
+                    desc = "Toggle file detail view",
+                    callback = function()
+                        detail = not detail
+                        if detail then
+                            require("oil").set_columns({ "icon", "permissions", "size", "mtime" })
+                        else
+                            require("oil").set_columns({ "icon" })
+                        end
+                    end,
+                },
             },
             view_options = {
                 -- This function defines what is considered a "hidden" file
