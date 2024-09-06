@@ -28,7 +28,7 @@ return {
                 ["gx"] = "actions.open_external",
                 ["g."] = "actions.toggle_hidden",
                 ["g\\"] = "actions.toggle_trash",
-                ["ll"] = {
+                ["<leader>ll"] = {
                     desc = "Toggle file detail view",
                     callback = function()
                         detail = not detail
