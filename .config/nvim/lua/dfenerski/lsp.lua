@@ -99,7 +99,7 @@ require('mason-lspconfig').setup({
     ensure_installed = {
         'biome',
         'eslint',
-        'tsserver',
+        'ts_ls',
         'cssls',
         'terraformls',
         'lemminx',
@@ -107,7 +107,8 @@ require('mason-lspconfig').setup({
         'pyright',
         'bashls',
         'lua_ls',
-        'rust_analyzer'
+        'rust_analyzer',
+        'pylsp'
     },
     handlers = {
         function(server_name)
@@ -131,8 +132,8 @@ require('mason-lspconfig').setup({
                 end
             })
         end,
-        tsserver = function()
-            require('lspconfig').tsserver.setup({
+        ts_ls = function()
+            require('lspconfig').ts_ls.setup({
                 capabilities = lsp_capabilities,
                 on_attach = function(client, bufnr)
                     -- Disable tsserver formatting in favor of biome
@@ -170,6 +171,37 @@ require('mason-lspconfig').setup({
                             includeInlayEnumMemberValueHints = true
                         }
                     }
+                },
+            })
+        end,
+        pylsp = function()
+            require('lspconfig').pylsp.setup({
+                capabilities = lsp_capabilities,
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            pycodestyle = {
+                                ignore = { 'E501' },
+                            },
+                        },
+                    },
+                }
+            })
+        end,
+        pyright = function()
+            require('lspconfig').pyright.setup({
+                capabilities = lsp_capabilities,
+                settings = {
+                    python = {
+                        analysis = {
+                            -- typeCheckingMode = "basic", -- "off" | "basic" | "strict"
+                            diagnosticSeverityOverrides = {
+                                -- reportSelfClsParameterName = "information", -- "none" | "information" | "basic" | "error"
+                                -- reportArgumentType = "information",
+                                -- reportCallIssue = "information",
+                            },
+                        },
+                    },
                 },
             })
         end,
