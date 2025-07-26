@@ -1,0 +1,9 @@
+alias vim='nvim'
+alias p3='python3'
+alias pl='prolog'
+alias pdf='evince'
+alias temi="cd $TEMI"
+alias pmdi="cd $PMDI && vim ."
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+alias :q='exit'
