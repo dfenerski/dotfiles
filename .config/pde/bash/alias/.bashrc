@@ -2,6 +2,7 @@ alias vim='nvim'
 alias p3='python3'
 alias pl='prolog'
 alias pdf='evince'
+alias g='git'
 alias temi="cd $TEMI"
 alias pmdi="cd $PMDI && vim ."
 alias pbcopy='xclip -selection clipboard'
