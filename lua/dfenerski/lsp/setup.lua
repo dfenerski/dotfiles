@@ -7,6 +7,15 @@ vim.pack.add{
 -- nix profile install nixpkgs#tinymist
 -- nix profile install nixpkgs#typescript-language-server
 
+-- Explicit config required for formatting capabilities
+vim.lsp.config("tinymist", {
+  cmd = { "tinymist" },
+  filetypes = { "typst" },
+  settings = {
+    formatterMode = "typstyle",
+  },
+})
+
 vim.lsp.enable({
     "lua_ls", 
     "pyright", 
