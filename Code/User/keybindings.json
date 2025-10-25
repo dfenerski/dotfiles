@@ -1,0 +1,126 @@
+[
+  {
+    "key": "capslock",
+    "command": "extension.vim_escape",
+    "when": "editorTextFocus && vim.active && !inDebugRepl"
+  },
+  {
+    "key": "ctrl+shift+o",
+    "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "ctrl+shift+i",
+    "command": "search.action.openNewEditor"
+  },
+  {
+    "key": "ctrl+shift+j",
+    "command": "search.action.focusQueryEditorWidget",
+    "when": "inSearchEditor"
+  },
+  {
+    "key": "ctrl+n",
+    "command": "search.action.focusNextSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "ctrl+p",
+    "command": "search.action.focusPreviousSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.navigateUp"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.navigateDown"
+  },
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.navigateLeft"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.navigateRight"
+  },
+  {
+    "key": "shift+alt+h",
+    "command": "workbench.action.previousEditor"
+  },
+  {
+    "key": "shift+alt+l",
+    "command": "workbench.action.nextEditor"
+  },
+  {
+    "key": "ctrl+shift+c",
+    "command": "editor.action.insertCursorBelow"
+  },
+  {
+    "key": "ctrl+shift+alt+c",
+    "command": "editor.action.insertCursorBelow"
+  },
+  {
+    "key": "shift+k",
+    "command": "editor.action.moveLinesUpAction",
+    "when": "editorTextFocus && vim.mode === 'VisualLine' && !editorReadOnly"
+  },
+  {
+    "key": "shift+j",
+    "command": "editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && vim.mode === 'VisualLine' && !editorReadOnly"
+  },
+  {
+    "key": "alt+right",
+    "command": "workbench.action.increaseViewWidth"
+  },
+  {
+    "key": "alt+left",
+    "command": "workbench.action.decreaseViewWidth"
+  },
+  {
+    "key": "alt+up",
+    "command": "workbench.action.increaseViewHeight"
+  },
+  {
+    "key": "alt+down",
+    "command": "workbench.action.decreaseViewHeight"
+  },
+  {
+    "key": "alt+=",
+    "command": "workbench.action.toggleEditorWidths"
+  },
+  {
+    "key": "ctrl+b",
+    "command": "-workbench.action.toggleSidebarVisibility",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+[",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "workbench.action.createTerminalEditor",
+        "workbench.action.moveEditorToBelowGroup",
+        {
+          "command": "workbench.action.terminal.sendSequence",
+          "args": {
+            "text": "nvim .\u000D"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "key": "ctrl+shift+enter",
+    "command": "mssql.runQuery",
+    "when": "config.workspaceKeybindings.mssql.enabled && editorTextFocus && editorLangId == 'sql'"
+  },
+  {
+    "key": "ctrl+shift+v",
+    "command": "editor.action.clipboardPasteAction"
+  },
+  {
+    "key": "ctrl+v",
+    "command": "-editor.action.clipboardPasteAction"
+  }
+]
