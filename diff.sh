@@ -82,6 +82,8 @@ compare_dir() {
 [ -f "bash/.bashrc" ] || note "Repo: bash/.bashrc not found (skipping)"
 [ -f "Code/User/settings.json" ] || note "Repo: Code/User/settings.json not found (skipping)"
 [ -f "Code/User/keybindings.json" ] || note "Repo: Code/User/keybindings.json not found (skipping)"
+[ -d "scripts" ] || note "Repo: scripts not found (skipping)"
+[ -d "nix" ] || note "Repo: nix not found (skipping)"
 
 any_changes=0
 
@@ -142,6 +144,16 @@ fi
 
 if [ -f "Code/User/keybindings.json" ] || [ -f "${CONFIG_HOME}/Code/User/keybindings.json" ]; then
 	compare "Code/User/keybindings.json" "${CONFIG_HOME}/Code/User/keybindings.json" "VS Code keybindings.json"
+fi
+
+# scripts
+if [ -d "scripts" ] || [ -d "${CONFIG_HOME}/scripts" ]; then
+	compare_dir "scripts" "${CONFIG_HOME}/scripts" "scripts/ (repo scripts vs ${CONFIG_HOME}/scripts)"
+fi
+
+# nix
+if [ -d "nix" ] || [ -d "${CONFIG_HOME}/nix" ]; then
+	compare_dir "nix" "${CONFIG_HOME}/nix" "nix/ (repo nix vs ${CONFIG_HOME}/nix)"
 fi
 
 echo
