@@ -3,6 +3,7 @@ alias vim='nvim'
 alias p3='python3'
 alias tf='terraform'
 alias pdf='evince'
+alias files='yazi'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias :q='exit'
@@ -15,9 +16,7 @@ export EDITOR='nvim'
 # Custom env vars
 export NVIMC="$HOME/.config/nvim"
 
-
 # Functions
-#
 
 # vttoggle() {
     # theme_file="$NVIMC/lua/dfenerski/colorscheme.lua"
