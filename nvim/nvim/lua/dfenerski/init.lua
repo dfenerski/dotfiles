@@ -11,6 +11,7 @@ require('dfenerski.plugin.harpoon');
 require('dfenerski.plugin.markdown');
 require('dfenerski.plugin.git');
 require('dfenerski.plugin.vim-tmux');
+require('dfenerski.plugin.obsidian');
 
 require('dfenerski.lsp.setup');
 
