@@ -2,10 +2,6 @@
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
--- Move highlighted selection using J/K
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-
 -- Fix cursor position when <J>oining a line
 vim.keymap.set("n", "J", "mzJ`z")
 
@@ -27,17 +23,11 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 -- Leader + delete into the void
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
--- Format file
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
-
 -- Close current file
 vim.keymap.set("n", "<leader>x", vim.cmd.Ex)
 
 -- Mark current file as executable
 vim.keymap.set("n", "<leader>ex", "<cmd>!chmod +x %<CR>", { silent = true })
-
--- Enable nvim v0.10 native inlay hints
-vim.keymap.set("n", "<leader>ih", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({})) end)
 
 -- Space + <s>end current word to search & replace
 vim.keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])

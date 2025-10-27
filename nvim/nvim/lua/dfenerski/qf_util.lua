@@ -47,7 +47,3 @@ do
     -- Set an autocommand or mapping to call this function
     vim.api.nvim_set_keymap('n', '<Leader>aq', ':AddCurrentFileToQF<CR>', { noremap = true, silent = true })
 end
-
--- Vim quickfix list navigation
-vim.keymap.set("n", "<leader>j", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>cprev<CR>zz")
