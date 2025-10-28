@@ -17,5 +17,6 @@ require('dfenerski.lsp.setup');
 
 require('dfenerski.theme.setup');
 
-
 print('Ready.');
+
+
