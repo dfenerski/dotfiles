@@ -40,8 +40,8 @@
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "workbench.editor.editorActionsLocation": "hidden",
   "references.preferredLocation": "view",
-  "workbench.preferredLightColorTheme": "Default Light Modern",
-  "workbench.preferredDarkColorTheme": "Default Dark Modern",
+  "workbench.preferredLightColorTheme": "Solarized Light",
+  "workbench.preferredDarkColorTheme": "Solarized Dark",
   "workbench.editor.empty.hint": "hidden",
   "editor.semanticTokenColorCustomizations": {
     "[Default Dark+]": {
