@@ -19,22 +19,14 @@ export NVIMC="$HOME/.config/nvim"
 
 # Functions
 
-# vttoggle() {
-    # theme_file="$NVIMC/lua/dfenerski/colorscheme.lua"
-    # if grep -q "current_theme = Themes.LIGHT" "$theme_file"; then
-    #     sed -i 's/current_theme = Themes.LIGHT/current_theme = Themes.DARK/g' "$theme_file"
-    # else
-    #     sed -i 's/current_theme = Themes.DARK/current_theme = Themes.LIGHT/g' "$theme_file"
-    # fi
-
-    # current=$(gsettings get org.gnome.desktop.interface color-scheme)
-    # if [ "$current" = "'default'" ]; then
-    #   gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-    # else
-    #   gsettings set org.gnome.desktop.interface color-scheme 'default'
-    # fi
-
-# }
+vttoggle() {
+    theme_file="$NVIMC/lua/dfenerski/theme/setup.lua"
+    if grep -q "theme = 'light'" "$theme_file"; then
+        sed -i "s/theme = 'light'/theme = 'dark'/g" "$theme_file"
+    else
+        sed -i "s/theme = 'dark'/theme = 'light'/g" "$theme_file"
+    fi
+}
 
 dnd() {
     gsettings set org.gnome.desktop.notifications show-banners $(if [ "$(gsettings get org.gnome.desktop.notifications show-banners)" = "true" ]; then echo "false"; else echo "true"; fi)
