@@ -22,5 +22,5 @@ vim.keymap.set("n", "<leader>og", ":ObsidianSearch<CR>", { desc = "Search notes"
 vim.keymap.set("n", "<leader>of", ":ObsidianQuickSwitch<CR>", { desc = "Open note" })
 vim.keymap.set("n", "<leader>ob", ":ObsidianBacklinks<CR>", { desc = "Show backlinks" })
 vim.keymap.set("n", "<leader>ol", ":ObsidianLinks<CR>", { desc = "List links in note" })
-vim.keymap.set("n", "<leader>ot", ":ObsidianTags<CR>", { desc = "List tags in vault" })
+vim.keymap.set("n", "<leader>ot", ":ObsidianTags<CR>", { desc = "List links in note" })
 
