@@ -4,9 +4,12 @@ vim.pack.add({
 })
 
 
+local theme = 'dark'
+
 vim.o.termguicolors = true
--- vim.o.background = 'light'
-vim.o.background = 'dark'
+vim.o.background = theme
+
 require('solarized').setup(opts)
+
 vim.cmd.colorscheme 'solarized'
 
