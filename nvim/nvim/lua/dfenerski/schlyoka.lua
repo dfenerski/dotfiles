@@ -5,6 +5,8 @@
 --   • <leader>t in NORMAL → whole buffer, in VISUAL → selection.
 ---------------------------------------------------------------------------
 
+vim = vim
+
 -- 1. Explicit double-case rules (multichar combos before singles)
 local rules = {
     { 'sht', 'щ' }, { 'Sht', 'Щ' },
@@ -45,29 +47,60 @@ local function tr(txt)
     return txt
 end
 
--- translate one line, skipping $…$ regions unless quoted text inside
+-- helper: temporarily protect identifiers preceded by '#'
+local function protect_hash_identifiers(s)
+    local protected = {}
+    local i = 0
+    s = s:gsub("#([%w_]+)", function(id)
+        i = i + 1
+        local token = "\1" .. i .. "\2" -- unique placeholder
+        protected[token] = "#" .. id
+        return token
+    end)
+    return s, protected
+end
+
+-- helper: restore protected identifiers
+local function restore_protected(s, protected)
+    for token, orig in pairs(protected) do
+        s = s:gsub(token, orig)
+    end
+    return s
+end
+
 local function transliterate_line(line)
     local out, pos = {}, 1
     while true do
-        local s, e = line:find('%b$$', pos) -- balanced $ … $
-        if not s then                       -- no more $
-            table.insert(out, tr(line:sub(pos)))
+        local itypstart, itypend = line:find("%b$$", pos)
+
+        -- no more $
+        if not itypstart then
+            local segment, protected = protect_hash_identifiers(line:sub(pos))
+            table.insert(out, restore_protected(tr(segment), protected))
             break
         end
-        if s > pos then -- text before $
-            table.insert(out, tr(line:sub(pos, s - 1)))
+
+        -- before $
+        if itypstart > pos then
+            local segment, protected = protect_hash_identifiers(line:sub(pos, itypstart - 1))
+            table.insert(out, restore_protected(tr(segment), protected))
         end
-        local seg = line:sub(s + 1, e - 1) -- inside $ … $
-        if seg:find('"') then              -- translate only quoted parts
+
+        -- inside $…$
+        local seg = line:sub(itypstart + 1, itypend - 1)
+        if seg:find('"') then
             seg = seg:gsub('"(.-)"', function(q)
-                return '"' .. tr(q) .. '"'
+                local qs, protected = protect_hash_identifiers(q)
+                return '"' .. restore_protected(tr(qs), protected) .. '"'
             end)
         end
-        table.insert(out, '$' .. seg .. '$')
-        pos = e + 1
+        table.insert(out, "$" .. seg .. "$")
+
+        pos = itypend + 1
     end
     return table.concat(out)
 end
+
 
 local function apply(buf, first, last)
     local lines = vim.api.nvim_buf_get_lines(buf, first, last + 1, false)
@@ -89,10 +122,7 @@ vim.api.nvim_create_user_command('Translate', function(opts)
 end, { desc = 'Shlyokavica → Cyrillic (skip $…$ unless quoted)', range = true })
 
 -- 2.  <leader>t mappings
-vim.keymap.set('n', '<leader>t', ':Translate<CR>',
-    { noremap = true, silent = true, desc = 'Translate buffer' })
 vim.keymap.set('v', '<leader>t', ':Translate<CR>',
     { noremap = true, silent = true, desc = 'Translate selection' })
 
 
---
