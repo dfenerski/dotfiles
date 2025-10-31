@@ -16,6 +16,8 @@ mkdir -p Code/User
 mkdir -p nvim
 mkdir -p scripts
 mkdir -p nix
+mkdir -p yazi
+mkdir -p sioyek
 
 # Validate sources exist in CONFIG_HOME
 [ -d "${CONFIG_HOME}/nvim" ] || die "Missing source directory: ${CONFIG_HOME}/nvim"
@@ -25,6 +27,8 @@ mkdir -p nix
 [ -f "${CONFIG_HOME}/Code/User/keybindings.json" ] || die "Missing source file: ${CONFIG_HOME}/Code/User/keybindings.json"
 [ -d "${CONFIG_HOME}/scripts" ] || die "Missing source directory: ${CONFIG_HOME}/scripts"
 [ -d "${CONFIG_HOME}/nix" ] || die "Missing source directory: ${CONFIG_HOME}/nix"
+[ -d "${CONFIG_HOME}/yazi" ] || die "Missing source directory: ${CONFIG_HOME}/yazi"
+[ -d "${CONFIG_HOME}/sioyek" ] || die "Missing source directory: ${CONFIG_HOME}/sioyek"
 
 echo "Syncing ${CONFIG_HOME}/nvim -> repo nvim/"
 rsync -rv --exclude ".git" "${CONFIG_HOME}/nvim" nvim
@@ -44,5 +48,11 @@ rsync -rv --exclude ".git" "${CONFIG_HOME}/scripts/" scripts
 
 echo "Syncing ${CONFIG_HOME}/nix -> repo nix/"
 rsync -rv --exclude ".git" "${CONFIG_HOME}/nix/" nix
+
+echo "Syncing ${CONFIG_HOME}/yazi -> repo yazi/"
+rsync -rv --exclude ".git" "${CONFIG_HOME}/yazi/" yazi
+
+echo "Syncing ${CONFIG_HOME}/sioyek -> repo sioyek/"
+rsync -rv --exclude ".git" "${CONFIG_HOME}/sioyek/" sioyek
 
 echo "Sync complete."

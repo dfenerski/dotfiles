@@ -17,6 +17,8 @@ command -v rsync >/dev/null 2>&1 || die "rsync is required but not installed."
 [ -f "Code/User/keybindings.json" ] || die "Missing source file: Code/User/keybindings.json"
 [ -d "scripts" ] || die "Missing source directory: scripts"
 [ -d "nix" ] || die "Missing source directory: nix"
+[ -d "yazi" ] || die "Missing source directory: yazi"
+[ -d "sioyek" ] || die "Missing source directory: sioyek"
 
 # Ensure destination directories under ~/.config
 mkdir -p "${CONFIG_HOME}/nvim"
@@ -25,6 +27,8 @@ mkdir -p "${CONFIG_HOME}/bash"
 mkdir -p "${CONFIG_HOME}/Code/User"
 mkdir -p "${CONFIG_HOME}/scripts"
 mkdir -p "${CONFIG_HOME}/nix"
+mkdir -p "${CONFIG_HOME}/yazi"
+mkdir -p "${CONFIG_HOME}/sioyek"
 
 echo "Syncing nvim -> ${CONFIG_HOME}/nvim"
 rsync -rv "nvim/nvim/" "${CONFIG_HOME}/nvim"
@@ -44,6 +48,12 @@ rsync -rv "scripts/" "${CONFIG_HOME}/scripts"
 
 echo "Syncing nix -> ${CONFIG_HOME}/nix"
 rsync -rv "nix/" "${CONFIG_HOME}/nix"
+
+echo "Syncing yazi -> ${CONFIG_HOME}/yazi"
+rsync -rv "yazi/" "${CONFIG_HOME}/yazi"
+
+echo "Syncing sioyek -> ${CONFIG_HOME}/sioyek"
+rsync -rv "sioyek/" "${CONFIG_HOME}/sioyek"
 
 echo "Sync complete."
 

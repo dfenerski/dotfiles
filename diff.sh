@@ -84,6 +84,8 @@ compare_dir() {
 [ -f "Code/User/keybindings.json" ] || note "Repo: Code/User/keybindings.json not found (skipping)"
 [ -d "scripts" ] || note "Repo: scripts not found (skipping)"
 [ -d "nix" ] || note "Repo: nix not found (skipping)"
+[ -d "yazi" ] || note "Repo: yazi not found (skipping)"
+[ -d "sioyek" ] || note "Repo: sioyek not found (skipping)"
 
 any_changes=0
 
@@ -154,6 +156,16 @@ fi
 # nix
 if [ -d "nix" ] || [ -d "${CONFIG_HOME}/nix" ]; then
 	compare_dir "nix" "${CONFIG_HOME}/nix" "nix/ (repo nix vs ${CONFIG_HOME}/nix)"
+fi
+
+# yazi
+if [ -d "yazi" ] || [ -d "${CONFIG_HOME}/yazi" ]; then
+	compare_dir "yazi" "${CONFIG_HOME}/yazi" "yazi/ (repo yazi vs ${CONFIG_HOME}/yazi)"
+fi
+
+# sioyek
+if [ -d "sioyek" ] || [ -d "${CONFIG_HOME}/sioyek" ]; then
+	compare_dir "sioyek" "${CONFIG_HOME}/sioyek" "sioyek/ (repo sioyek vs ${CONFIG_HOME}/sioyek)"
 fi
 
 echo

@@ -22,6 +22,8 @@ This repository syncs selected dotfiles between the repo and `~/.config`, with s
 - Code/User/keybindings.json ↔ $CONFIG_HOME/Code/User/keybindings.json
 - scripts/ ↔ $CONFIG_HOME/scripts
 - nix/ ↔ $CONFIG_HOME/nix
+- yazi/ ↔ $CONFIG_HOME/yazi
+- sioyek/ ↔ $CONFIG_HOME/sioyek
 
 ## Script behavior
 

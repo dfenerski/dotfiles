@@ -1,0 +1,10 @@
+[opener]
+pdf = [
+  { run = 'sioyek "$@"', desc = "sioyek", block = true, for = "unix" }
+]
+
+[open]
+rules = [
+  { mime = "application/pdf", use = [ "pdf" ] }
+]
+
