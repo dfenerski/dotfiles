@@ -12,6 +12,8 @@ require('dfenerski.plugin.markdown');
 require('dfenerski.plugin.git');
 require('dfenerski.plugin.vim-tmux');
 require('dfenerski.plugin.obsidian');
+require('dfenerski.plugin.img-clip');
+require('dfenerski.plugin.luasnip');
 
 require('dfenerski.lsp.setup');
 
