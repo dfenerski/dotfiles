@@ -4,7 +4,7 @@ require("img-clip").setup(
     {
         filetypes = {
             typst = {
-                template = "#image($FILE_PATH, width=\"80%\")",
+                template = "#image(\"$FILE_PATH\", width: 80%)",
             }
         },
     }

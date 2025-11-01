@@ -15,7 +15,7 @@ ls.add_snippets("typst", {
     ls.s("def", {
         ls.t({"#def[", "  #underline["}),
         ls.i(1, "name"),
-        ls.t({"]", "]"}),
+        ls.t({"] \\", "]"}),
     }),
 })
 
